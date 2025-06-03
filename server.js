@@ -1,14 +1,19 @@
-const express = require('express')
-const cors = require('cors')
-const mysql = require('mysql2')
-const port = 3200
+const express = require("express");
+const cors = require("cors");
+const mysql = require("mysql2");
+const port = 3200;
 
-const userEndpoint = require('./routes/users')
+const sequelize = require("./db.config");
+sequelize.sync().then( () => console.log("database ready!") );
 
-const app = express()
-app.use(cors())
-app.use(express.json())
+const userEndpoint = require("./routes/users");
 
-app.use('/', userEndpoint)
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-app.listen(port, () => console.log(`running server on http://localhost:${port}`));
+app.use("/users", userEndpoint);
+
+app.listen(port, () =>
+  console.log(`running server on http://localhost:${port}`)
+);
