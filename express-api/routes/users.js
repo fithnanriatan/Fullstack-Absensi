@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 
 const UsersModel = require("../models/users");
-const cekPass = require('../utils/cekPassword')
+const cekPass = require("../utils/cekPassword");
 
 // routing endpoint users utama
 router.get("/", async (req, res) => {
@@ -36,9 +36,8 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/", async (req, res) => {
-
   const { nim, nama, password, newPassword, email, telp } = req.body;
-  const compare = await cekPass(nim, password)
+  const compare = await cekPass(nim, password);
   const newPassHash = await bcrypt.hash(newPassword, 10);
 
   if (compare) {
@@ -66,16 +65,28 @@ router.put("/", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { nim, password } = req.body;
-  const check = await cekPass(nim, password)
-  if (check.compare) {
+
+  try {
+    const check = await cekPass(nim, password);
+
+    // Jika user tidak ditemukan atau password salah
+    if (!check.compare || !check.userData) {
+      return res.status(400).json({
+        error: "NIM atau password salah!",
+      });
+    }
+
+    // Jika berhasil login
     res.status(200).json({
       users: check.userData,
-      metadata: 'berhasil login!'
-    })
-  } else {
-    res.status(400).json({
-      error: 'nim / password salah!'
-    })
+      metadata: "Berhasil login!",
+    });
+
+  } catch (e) {
+    console.error("Login error:", e); // untuk keperluan debug
+    res.status(500).json({
+      error: "Terjadi kesalahan server.",
+    });
   }
 });
 
