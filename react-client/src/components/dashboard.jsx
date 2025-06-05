@@ -1,63 +1,119 @@
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Table } from "react-bootstrap";
+import { PersonFill } from "react-bootstrap-icons";
 import { useEffect, useState } from "react";
-import { PersonFill, CalendarCheckFill, BoxArrowRight } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Dashboard() {
-  const [user, setUser] = useState({ nama: "Pengguna", nim: "0000" });
+  const [absensi, setAbsensi] = useState([]);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Hapus data dari localStorage
+    localStorage.clear();
+    // Arahkan ke halaman login
+    navigate("/login");
+  };
 
   useEffect(() => {
-    // Simulasi ambil data user dari API atau localStorage
-    const storedUser = {
-      nama: "Tyoo Rizky",
-      nim: "3302",
-    };
-    setUser(storedUser);
-  }, []);
+    const nim = localStorage.getItem("nim");
+    const nama = localStorage.getItem("nama");
+
+    // validasi belum login
+    if (!nim || !nama) {
+      navigate("/login");
+      return;
+    }
+
+    // Ambil data absensi dari server
+    axios
+      .get("http://localhost:3200/absensi")
+      .then((res) => {
+        const semuaAbsensi = res.data.absensi;
+        // const filtered = semuaAbsensi.filter(
+        //   (item) => item.users_nim == nim // pastikan pakai == bukan === agar string vs int tetap cocok
+        // );
+        setAbsensi(semuaAbsensi);
+      })
+      .catch((err) => {
+        console.error("Gagal mengambil data absensi:", err);
+      });
+
+  }, [navigate]);
+
+  const nim = localStorage.getItem("nim");
+  const nama = localStorage.getItem("nama");
 
   return (
     <Container className="mt-4">
-      <h2 className="text-center mb-4">Selamat Datang, {user.nama} 🎉</h2>
-
-      <Row className="mb-4">
-        <Col md={4}>
-          <Card className="shadow-sm">
-            <Card.Body>
-              <PersonFill size={32} className="text-primary mb-2" />
-              <Card.Title>Profil</Card.Title>
-              <Card.Text>NIM: {user.nim}</Card.Text>
-              <Button variant="outline-primary" size="sm">
-                Lihat Profil
+      {/* Header Profil */}
+      <Card className="shadow mb-4">
+        <Card.Body>
+          <Row className="align-items-center">
+            <Col md={1}>
+              <PersonFill size={42} className="text-primary" />
+            </Col>
+            <Col md={9}>
+              <h4 className="mb-1">Selamat Datang, {nama} 🎉</h4>
+              <p className="mb-0 text-muted">NIM: {nim}</p>
+            </Col>
+            <Col md={2} className="text-end">
+              <Button variant="outline-primary" size="sm" className="me-2">
+                Profil
               </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={4}>
-          <Card className="shadow-sm">
-            <Card.Body>
-              <CalendarCheckFill size={32} className="text-success mb-2" />
-              <Card.Title>Absensi</Card.Title>
-              <Card.Text>Rekap absensi minggu ini tersedia.</Card.Text>
-              <Button variant="outline-success" size="sm">
-                Cek Absensi
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={4}>
-          <Card className="shadow-sm">
-            <Card.Body>
-              <BoxArrowRight size={32} className="text-danger mb-2" />
-              <Card.Title>Keluar</Card.Title>
-              <Card.Text>Akhiri sesi login Anda dengan aman.</Card.Text>
-              <Button variant="outline-danger" size="sm">
+              <Button
+                variant="outline-danger"
+                size="sm"
+                onClick={handleLogout}
+              >
                 Logout
               </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
 
-      <footer className="text-center text-muted">
+      {/* Tabel Absensi */}
+      <Card className="shadow-sm">
+        <Card.Body>
+          <h5 className="mb-3">Riwayat Absensi</h5>
+          <Table striped bordered hover responsive>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>NIM</th>
+                <th>Status</th>
+                <th>Tanggal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {absensi.length > 0 ? (
+                absensi.map((item, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{item.users_nim}</td>
+                    <td>
+                      <span className={item.status === "in" ? "text-success" : "text-danger"}>
+                        {item.status.toUpperCase()}
+                      </span>
+                    </td>
+                    <td>{new Date(item.createdAt).toLocaleString()}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="text-center text-muted">
+                    Belum ada data absensi
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+
+        </Card.Body>
+      </Card>
+
+      <footer className="text-center text-muted mt-4">
         <small>© 2025 Sistem Absensi UPT Komputer</small>
       </footer>
     </Container>

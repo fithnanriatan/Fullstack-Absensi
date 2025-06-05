@@ -1,9 +1,17 @@
 import { Button, Container, Form } from "react-bootstrap";
 import { Typewriter } from "react-simple-typewriter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Login({ title, desc }) {
+
+  useEffect(() => {
+    if (localStorage.getItem("nama") && localStorage.getItem("nim")) {
+      console.log('user sudah login!')
+      window.location.replace('/dashboard')
+    }
+  }, []);
+
   const [nim, setNim] = useState("");
   const [pass, setPass] = useState("");
 
@@ -27,7 +35,7 @@ function Login({ title, desc }) {
     })
       .then((result) => {
         // Masukkan data ke dalam memory web
-        localStorage.setItem('nip', result.data.users.nim)
+        localStorage.setItem('nim', result.data.users.nim)
         localStorage.setItem('nama', result.data.users.nama)
         // Arahkan ke dashboard
         window.location.replace('/dashboard')
