@@ -4,11 +4,10 @@ const AbsenModel = require("../models/absensi");
 
 // routing endpoint absensi utama
 router.get("/", async (req, res) => {
-  const absen = await AbsenModel.findAll();
-  console.log(absen);
+  const absensi = await AbsenModel.findAll();
 
   res.status(200).json({
-    data: absen,
+    absensi,
     metadata: "test absensi endpoint",
   });
 });
