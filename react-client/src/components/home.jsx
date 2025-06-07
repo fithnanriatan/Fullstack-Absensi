@@ -24,7 +24,7 @@ function Index({ title }) {
                 variant="primary"
                 size="lg"
                 className="mt-4 px-5"
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/dashboard")}
               >
                 Masuk Sekarang
               </Button>

@@ -26,13 +26,14 @@ function Register({ title, desc }) {
                 password: pass,
                 email,
                 telp,
-            }); 
+            });
 
             // Simpan data pengguna di localStorage
-            localStorage.setItem("nim", response.data.data.nim);
-            localStorage.setItem("nama", response.data.data.nama);
+            localStorage.setItem("nim", response.data.registered.nim);
+            localStorage.setItem("nama", response.data.registered.nama);
 
             // Arahkan ke dashboard
+            alert('Pendaftaran Berhasil!')
             window.location.replace("/dashboard");
         } catch (error) {
             console.error("❌ Gagal daftar:", error);

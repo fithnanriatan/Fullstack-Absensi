@@ -40,7 +40,10 @@ function Login({ title, desc }) {
         // Arahkan ke dashboard
         window.location.replace('/dashboard')
       })
-      .catch((error) => console.error(error))
+      .catch((error) => {
+        console.error(error)
+        alert('username/password salah!')
+      })
   };
 
   return (
