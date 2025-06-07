@@ -2,6 +2,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import { Typewriter } from "react-simple-typewriter";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Register({ title, desc }) {
     const [nim, setNim] = useState("");
@@ -61,8 +62,8 @@ function Register({ title, desc }) {
                     delaySpeed={1000}
                 />
             </h2>
-            <Form className="w-50 mx-auto">
-                <Form.Group className="mb-4">
+            <Form className="w-50 mx-auto d-grid gap-3">
+                <Form.Group>
                     <Form.Label className="fw-bold">NIM</Form.Label>
                     <Form.Control
                         type="number"
@@ -72,7 +73,7 @@ function Register({ title, desc }) {
                     />
                 </Form.Group>
 
-                <Form.Group className="mb-4">
+                <Form.Group>
                     <Form.Label className="fw-bold">Nama</Form.Label>
                     <Form.Control
                         type="text"
@@ -82,7 +83,7 @@ function Register({ title, desc }) {
                     />
                 </Form.Group>
 
-                <Form.Group className="mb-4">
+                <Form.Group>
                     <Form.Label className="fw-bold">Password</Form.Label>
                     <Form.Control
                         type="password"
@@ -92,7 +93,7 @@ function Register({ title, desc }) {
                     />
                 </Form.Group>
 
-                <Form.Group className="mb-4">
+                <Form.Group>
                     <Form.Label className="fw-bold">Email</Form.Label>
                     <Form.Control
                         type="email"
@@ -102,7 +103,7 @@ function Register({ title, desc }) {
                     />
                 </Form.Group>
 
-                <Form.Group className="mb-4">
+                <Form.Group>
                     <Form.Label className="fw-bold">No Telp</Form.Label>
                     <Form.Control
                         type="number"
@@ -112,9 +113,19 @@ function Register({ title, desc }) {
                     />
                 </Form.Group>
 
-                <Button className="mb-4 fw-bold" onClick={handleRegister}>
-                    Daftar Sekarang
-                </Button>
+
+                <div className="d-grid gap-3 mt-2">
+                    <Button className="fw-bold" onClick={handleRegister}>
+                        Daftar Sekarang
+                    </Button>
+
+                    <div className="text-center">
+                        <small className="text-muted">Sudah punya akun? </small>
+                        <Link to="/login" className="text-primary fw-semibold text-decoration-none">
+                            Login
+                        </Link>
+                    </div>
+                </div>
             </Form>
         </Container>
     );

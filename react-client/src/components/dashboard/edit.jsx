@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Form, Button, Card } from "react-bootstrap";
 import axios from "axios";
-import Logout from "./logout";
+import useLogout from "./logout";
 
 const Edit = ({ title }) => {
     const [nama, setNama] = useState("");
     const [password, setPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
+
+    const Logout = useLogout();
 
     useEffect(() => {
         // Ambil nama dari localStorage saat pertama kali render
@@ -23,13 +25,14 @@ const Edit = ({ title }) => {
         };
 
         try {
-            await axios.put("http://localhost:3200/users", requestingData);
-
+            const update = await axios.put("http://localhost:3200/users", requestingData);
+            console.log(update);
+            
             // Update nama di localStorage jika berhasil
             localStorage.setItem("nama", nama);
             alert("Data berhasil diupdate!");
-
             Logout();
+            
         } catch (error) {
             console.error("Gagal update profil:", error);
             alert("Gagal update profil. Periksa kembali data Anda.");

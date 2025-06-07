@@ -1,11 +1,12 @@
 import { PersonFill } from "react-bootstrap-icons";
 import { Row, Col, Card, Button } from "react-bootstrap";
-import Logout from "./logout";
+import useLogout from "./logout"; // Import custom hook
 
 const Navbar = () => {
-    
     const nim = localStorage.getItem("nim");
     const nama = localStorage.getItem("nama");
+    const logout = useLogout(); // Gunakan custom hook
+    
     return (
         <Card className="shadow mb-4">
             <Card.Body>
@@ -20,7 +21,7 @@ const Navbar = () => {
                     <Col md={2} className="text-end">
                         <Button
                             variant="danger"
-                            onClick={Logout}
+                            onClick={logout} // ✅ Panggil function dari hook
                         >
                             Logout
                         </Button>
@@ -31,4 +32,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default Navbar;

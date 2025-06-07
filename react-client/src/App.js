@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home title="HOME PAGE"/>}/>
         <Route path="/dashboard" element={<Dashboard title="DASHBOARD"/>}/>
-        <Route path="/login" element={<Login title="LOGIN PUBG" desc="wkwkwkwkkw"/>}/>
+        <Route path="/login" element={<Login title="LOGIN PAGE" desc="Welcome Back!"/>}/>
         <Route path="/register" element={<Register title="Registrasi" desc="silahkan masukkan seluruh data"/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>

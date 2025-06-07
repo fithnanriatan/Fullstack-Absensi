@@ -2,6 +2,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import { Typewriter } from "react-simple-typewriter";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Login({ title, desc }) {
 
@@ -78,9 +79,22 @@ function Login({ title, desc }) {
             onChange={(event) => handlePass(event.target.value)}
           />
         </Form.Group>
-        <Button className="mb-4 fw-bold" onClick={() => userLogin()}>
-          Login Sekarang
-        </Button>
+        
+        <div className="d-grid gap-3">
+          <Button
+            className="fw-bold py-2"
+            onClick={() => userLogin()}
+          >
+            Login Sekarang
+          </Button>
+
+          <div className="text-center">
+            <small className="text-muted">Belum punya akun? </small>
+            <Link to="/register" className="text-primary fw-semibold text-decoration-none">
+              Register
+            </Link>
+          </div>
+        </div>
       </Form>
     </Container>
   );

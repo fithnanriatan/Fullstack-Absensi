@@ -37,10 +37,10 @@ router.post("/", async (req, res) => {
 
 router.put("/", async (req, res) => {
   const { nim, nama, password, newPassword, email, telp } = req.body;
-  const compare = await cekPass(nim, password);
+  const check = await cekPass(nim, password);
   const newPassHash = await bcrypt.hash(newPassword, 10);
-
-  if (compare) {
+  
+  if (check.compare) {
     const users = await UsersModel.update(
       {
         nama,

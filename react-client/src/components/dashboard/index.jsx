@@ -110,8 +110,8 @@ function Dashboard() {
         </Card.Body>
       </Card>
 
-      <footer className="text-center text-muted mt-4">
-        <small>© 2025 Sistem Absensi Fullstack</small>
+      <footer className="text-center text-muted my-4">
+        <small>© 2025 Sistem Absensi Sederhana Fullstack</small>
       </footer>
     </Container>
   );
